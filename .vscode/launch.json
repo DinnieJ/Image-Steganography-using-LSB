@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - LSB_decode",
+            "request": "launch",
+            "mainClass": "LSB_decode",
+            "projectName": "Image-Steganography-using-LSB_67f3400e"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - LSB_encode",
+            "request": "launch",
+            "mainClass": "LSB_encode",
+            "projectName": "Image-Steganography-using-LSB_67f3400e"
+        }
+    ]
+}

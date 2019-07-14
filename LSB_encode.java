@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,9 +8,9 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 public class LSB_encode {
-	static final String MESSAGEFILE = "C:\\message.txt";
-	static final String COVERIMAGEFILE = "C:\\cover.jpeg";	
-	static final String STEGIMAGEFILE = "C:\\steg.png";
+	static final String MESSAGEFILE = "C:\\Users\\MemeLord\\Documents\\message.txt";
+	static final String COVERIMAGEFILE = "C:\\Users\\MemeLord\\Pictures\\download.jpg";	
+	static final String STEGIMAGEFILE = "C:\\Users\\MemeLord\\Pictures\\download.jpg";
 	public static void main(String[] args) throws Exception {
 		
 		String contentOfMessageFile = (readMessageFile());
@@ -71,7 +72,6 @@ return theImage;
 
 public static void hideTheMessage (int[] bits, BufferedImage theImage) throws Exception{
 	File f = new File (STEGIMAGEFILE);
-	BufferedImage sten_img=null;
 	int bit_l=bits.length/8;
 	int[] bl_msg=new int[8];
 	System.out.println("bit lent "+bit_l);
@@ -89,24 +89,18 @@ int currentBitEntry=8;
 for (int x = 0; x < theImage.getWidth(); x++){
 for ( int y = 0; y < theImage.getHeight(); y++){
 	if(x==0&&y<8){
-		int currentPixel = theImage.getRGB(x, y);	
-		int ori=currentPixel;
-		int red = currentPixel>>16;
-		red = red & 255;
-		int green = currentPixel>>8;
-		green = green & 255;
-		int blue = currentPixel;
-		blue = blue & 255;
+		Color currentPixel = new Color(theImage.getRGB(x, y));	
+		int red = currentPixel.getRed();
+		int green = currentPixel.getGreen();
+		int blue = currentPixel.getBlue();
 		String x_s=Integer.toBinaryString(blue);
 		String sten_s=x_s.substring(0, x_s.length()-1);
 		sten_s=sten_s+Integer.toString(bl_msg[b]);
 
 		//j++;
-		int temp=Integer.parseInt(sten_s,2);
-		int s_pixel=Integer.parseInt(sten_s, 2);
+		int new_blue=Integer.parseInt(sten_s, 2);
 		int a=255;
-		int rgb = (a<<24) | (red<<16) | (green<<8) | s_pixel;
-		theImage.setRGB(x, y, rgb);
+		theImage.setRGB(x, y, new Color(red, green, new_blue).getRGB());
 		//System.out.println("original "+ori+" after "+theImage.getRGB(x, y));
 		ImageIO.write(theImage, "png", f);
 b++;
@@ -114,24 +108,18 @@ b++;
 	}
 	else if (currentBitEntry < bits.length+8 ){
 
-	int currentPixel = theImage.getRGB(x, y);	
-	int ori=currentPixel;
-	int red = currentPixel>>16;
-	red = red & 255;
-	int green = currentPixel>>8;
-	green = green & 255;
-	int blue = currentPixel;
-	blue = blue & 255;
+	Color currentPixel = new Color(theImage.getRGB(x, y));
+	int red = currentPixel.getRed();
+	int green = currentPixel.getGreen();
+	int blue = currentPixel.getBlue();
+
 	String x_s=Integer.toBinaryString(blue);
 	String sten_s=x_s.substring(0, x_s.length()-1);
 	sten_s=sten_s+Integer.toString(bits[j]);
 	j++;
-	int temp=Integer.parseInt(sten_s,2);
-	int s_pixel=Integer.parseInt(sten_s, 2);
-	
-	int a=255;
-	int rgb = (a<<24) | (red<<16) | (green<<8) | s_pixel;
-	theImage.setRGB(x, y, rgb);
+	int new_blue=Integer.parseInt(sten_s, 2);
+
+	theImage.setRGB(x, y, new Color(red,green,new_blue).getRGB());
 	//System.out.println("original "+ori+" after "+theImage.getRGB(x, y));
 	ImageIO.write(theImage, "png", f);
 
